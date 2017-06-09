@@ -5,7 +5,7 @@ import Box from '../components/Box';
 export default class HomePage extends Component {
   render() {
     return (
-      <Box />
+      <Box beats={16} />
     );
   }
 }

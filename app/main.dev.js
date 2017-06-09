@@ -84,9 +84,9 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+
+  // Application specific things
+  const midi = new MidiProcess(mainWindow.webContents)
+
+  midi.init()
 });
-
-// Application specific things
-const midi = new MidiProcess()
-
-midi.init()

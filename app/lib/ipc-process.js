@@ -2,18 +2,19 @@ const { ipcMain } = require('electron')
 const { Song }    = require('./class-Song')
 
 class MidiProcess {
-  constructor(){}
+  constructor(webContents){
+    this.webContents = webContents
+  }
 
   init(){
     const song = new Song()
 
     song.bpm = 128
-    song.arrangement = [
-      [0],
-      [2],
-      [1],
-      [3]
-    ]
+    song.arrangement = []
+    song.log = true
+    song.onBeatChange = beat => {
+      this.webContents.send('beatChange', beat)
+    }
 
     ipcMain.on('play', (event, arg) => {
       song.play()
@@ -25,7 +26,9 @@ class MidiProcess {
     })
     .on('update', (event, arg) => {
       const { token, arrangement } = arg
-      song.arrangement(arrangement)
+      song.arrangement = arrangement.map(beat => {
+        return beat.notes //
+      })
       event.sender.send(`update-${token}`, 'arrangement updated')
     })
   }

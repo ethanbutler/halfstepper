@@ -4,16 +4,16 @@ class Song {
 
   constructor(){
     this.cycle          = null
+    this.beat           = -1
     this._arrangement   = []
     this._bpm           = 128
+    this._bpc           = 16
     this._log           = false
-
-    this.instruments = [60, 62, 64, 65]
+    this._onBeatChange  = null
   }
 
   play(){
-    let beat       = this._arrangement.length // set to last beat so it starts on 0
-    const interval = 60 / this._bpm
+    let beat       = this.beat
     const log      = this._log
     this.cycle = setInterval(() => {
       if(log) console.log('tick')
@@ -21,12 +21,19 @@ class Song {
       beat = (beat + 1 < this._arrangement.length) ? beat + 1 : 0
       const notes = this._arrangement[beat]
 
+      if(!notes) return
+
       notes.map(note => {
         if(log) console.log(note)
-        output.sendMessage([144, this.instruments[note], 100])
+        output.sendMessage([144, note, 100])
+        setTimeout(() => {
+          output.sendMessage([144, note, 0])
+        }, 125)
       })
 
-    }, interval * 500) // eslint-disable-line padded-blocks
+      if(this._onBeatChange) this._onBeatChange(beat)
+      this.beat = beat
+    }, ((60 / this._bpm) * 1000) / (this._bpc / 4)) // eslint-disable-line padded-blocks
   }
 
   pause(){
@@ -43,6 +50,10 @@ class Song {
 
   set log(value){
     this._log = value
+  }
+
+  set onBeatChange(cb){
+    this._onBeatChange = cb
   }
 
 }

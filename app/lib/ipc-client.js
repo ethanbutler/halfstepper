@@ -1,11 +1,14 @@
 const { ipcRenderer } = require('electron')
 const Promise = require('bluebird')
 
+const generateToken = () => Date.now()
+
 const play = () => {
   console.log('play')
   return new Promise(resolve => {
-    const token = 'hello' // TODO: replace with something dynamic
+    const token = generateToken()
     ipcRenderer.send('play', token)
+    console.log(`play-${token}`)
     ipcRenderer.on(`play-${token}`, event => {
       resolve(event)
     })
@@ -15,7 +18,7 @@ const play = () => {
 const pause = () => {
   console.log('pause')
   return new Promise(resolve => {
-    const token = 'hello' // TODO: replace with something dynamic
+    const token = generateToken()
     ipcRenderer.send('pause', token)
     ipcRenderer.on(`pause-${token}`, (event) => {
       resolve(event)
@@ -23,9 +26,9 @@ const pause = () => {
   })
 }
 
-const updateArrangement = arrangement => {
-  const token = 'hello' // TODO: replace with something dynamic
+const update = arrangement => {
   return new Promise(resolve => {
+    const token = generateToken()
     ipcRenderer.send('update', { token, arrangement })
     ipcRenderer.on(`update-${token}`, (event) => {
       resolve(event)
@@ -33,8 +36,12 @@ const updateArrangement = arrangement => {
   })
 }
 
-module.exports = {
+const ipcMidiClient = {
   play,
   pause,
-  updateArrangement
+  update
+}
+
+module.exports = {
+  ipcMidiClient
 }

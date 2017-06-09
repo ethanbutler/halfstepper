@@ -1,0 +1,100 @@
+.background {
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-size: 200%;
+  animation: bgmove 30s linear infinite;
+}
+
+@keyframes bgmove {
+  from { background-position-x: 0% }
+  to { background-position-x: 200% }
+}
+
+.box {
+  color: #fff;
+}
+
+.controls {
+  position: relative;
+  height: 12vh;
+  text-align: center;
+}
+
+.control_button {
+  background: none;
+  padding: 2vh 3vh;
+  font-size: 4vh;
+  line-height: 8vh;
+  border: none;
+  color: #fff;
+  font-family: 'Bubbler One', sans-serif;
+  text-transform: uppercase;
+}
+
+.control_button:focus {
+  outline: none;
+}
+
+.channels {
+  position: relative;
+}
+
+.channel {
+  display: flex;
+  height: 11vh;
+}
+
+.channel_name {
+  width: 150px;
+  padding: 0 1vw;
+  line-height: 11vh;
+  color: #fff;
+  font-size: 3vh;
+  text-align: right;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.channel_notes {
+  display: flex;
+  width: 100%;
+  opacity: .9;
+  mix-blend-mode: multiply;
+}
+
+.note {
+  position: relative;
+  font-size: 0;
+  width: 100%;
+  border: none;
+}
+
+.note:focus {
+  outline: none;
+}
+
+.note:nth-of-type(4n) {
+  border-right: 10px solid rgba(0,0,0,.1);
+}
+
+.note:last-of-type {
+  border-right: none;
+}
+
+.note_inner {
+  pointer-events: none;
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 40%;
+  height: 0;
+  padding-bottom: 40%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform .1 ease;
+  background: white;
+  background-position: center;
+  background-size: 110vw 110vh;
+  background-attachment: fixed;
+  //mix-blend-mode: overlay;
+}
